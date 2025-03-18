@@ -21,6 +21,13 @@ resource "aws_launch_template" "ecs_instance" {
 #!/bin/bash
 echo "ECS_CLUSTER=${var.app_cluster_name}" >> /etc/ecs/ecs.config
 echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
+echo "ECS_DATADIR=/data" >> /etc/ecs/ecs.config
+echo "ECS_ENABLE_TASK_IAM_ROLE=true" >> /etc/ecs/ecs.config
+echo "ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true" >> /etc/ecs/ecs.config
+echo "ECS_LOGFILE=/log/ecs-agent.log" >> /etc/ecs/ecs.config
+echo "ECS_AVAILABLE_LOGGING_DRIVERS=[\"json-file\",\"awslogs\"]" >> /etc/ecs/ecs.config
+echo "ECS_LOGLEVEL=info" >> /etc/ecs/ecs.config
+
 systemctl restart ecs
 EOF
   )
@@ -52,15 +59,15 @@ resource "aws_ecs_task_definition" "app_task" {
           "hostPort": ${var.container_port}
         }
       ],
-      "memory": 512,
-      "cpu": 256
+      "memory": 1024,
+      "cpu": 512
     }
   ]
   DEFINITION
   requires_compatibilities = ["EC2"]
   network_mode             = "bridge"
-  memory                   = 512
-  cpu                      = 256
+  memory                   = 1024
+  cpu                      = 512
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
 }
 

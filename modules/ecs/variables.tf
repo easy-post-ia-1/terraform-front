@@ -51,6 +51,6 @@ variable "app_service_name" {
 variable "key_name" {
   description = "Name of the SSH key pair"
   type        = string
-  default     = "t3micro-frontend-sena-docker"
+  default     = "t3micro-frontend-sena-docker.pem"
 }
 
