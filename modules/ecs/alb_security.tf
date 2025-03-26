@@ -16,6 +16,13 @@ resource "aws_security_group" "alb_sg" {
     cidr_blocks = ["0.0.0.0/0"] # Test only, restrict to your IP
   }
 
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # test ecs
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

@@ -15,9 +15,20 @@ data "aws_ami" "latest_ecs_ami" {
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-ecs-hvm-*-x86_64-ebs"]
+    values = ["al2023-ami-ecs-neuron-hvm-*"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
   }
 }
+
 
 data "aws_iam_policy_document" "assume_role_policy" {
   statement {
