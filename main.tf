@@ -2,10 +2,10 @@ terraform {
   required_version = "~> 1.3"
 
   backend "s3" {
-    bucket         = "easy-post-ia-frontend-prod"
-    key            = "tf-infra/terraform.tfstate"
+    bucket         = "easy-post-ia-frontend-dev"
+    key            = "tf-infra/dev.tfstate"
     region         = "us-east-2"
-    dynamodb_table = "easy-post-ia-frontend-prod-table"
+    dynamodb_table = "easy-post-ia-frontend-dev-table"
     encrypt        = true
   }
 
@@ -18,15 +18,18 @@ terraform {
 }
 
 module "tf-state" {
-  source      = "./modules/tf-state"
+  source = "./modules/tf-state"
+
   bucket_name = local.bucket_name
   table_name  = local.table_name
+  env         = local.env
 }
 
 module "ecrRepo" {
   source = "./modules/ecr"
 
   ecr_repo_name = local.ecr_repo_name
+  env           = local.env
 }
 
 module "ecsCluster" {
@@ -44,5 +47,7 @@ module "ecsCluster" {
   application_load_balancer_name = local.application_load_balancer_name
   target_group_name              = local.target_group_name
   app_service_name               = local.app_service_name
+  env                            = local.env
+  app_container_name             = local.app_container_name
 }
 

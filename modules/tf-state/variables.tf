@@ -11,3 +11,9 @@ variable "table_name" {
   description = "Remote DynamoDB Table Name"
   type        = string
 }
+
+variable "env" {
+  description = "Deployment environment name (e.g., dev, prod)"
+  type        = string
+}
+

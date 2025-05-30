@@ -1,6 +1,6 @@
 # Load Balancer
 resource "aws_lb" "app_alb" {
-  name               = "ecs-alb"
+  name               = "ecs-alb-${var.env}"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
@@ -9,7 +9,7 @@ resource "aws_lb" "app_alb" {
 
 # Target Group
 resource "aws_lb_target_group" "target_group" {
-  name     = "ecs-target-group"
+  name     = "ecs-target-group-${var.env}"
   port     = var.container_port
   protocol = "HTTP"
   vpc_id   = data.aws_vpc.default.id
@@ -26,7 +26,7 @@ resource "aws_lb_target_group" "target_group" {
 # ALB Listener
 resource "aws_lb_listener" "app_listener" {
   load_balancer_arn = aws_lb.app_alb.arn
-  port              = 80
+  port              = 3000
   protocol          = "HTTP"
 
   default_action {

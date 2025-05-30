@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ecs_instance_role" {
-  name               = "ecs-instance-role"
+  name               = "ecs-instance-role-${var.env}"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
@@ -9,7 +9,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 }
 
 resource "aws_iam_instance_profile" "ecs_instance_profile" {
-  name = "ecs-instance-profile"
+  name = "ecs-instance-profile-${var.env}"
   role = aws_iam_role.ecs_instance_role.name
 }
 

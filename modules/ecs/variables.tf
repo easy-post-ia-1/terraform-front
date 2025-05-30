@@ -54,3 +54,12 @@ variable "key_name" {
   default     = "t3micro-frontend-sena-docker.pem"
 }
 
+variable "env" {
+  description = "Deployment environment name (e.g., dev, prod)"
+  type        = string
+}
+
+variable "app_container_name" {
+  description = "ECS Container Name"
+  type        = string
+}
